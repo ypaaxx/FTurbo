@@ -1,0 +1,37 @@
+<extension version="1" name="FTurbo">
+    <guid shortid="FTurbo">99b4b12e-62cc-4bcf-ad09-efacfea915bc</guid>
+    <script src="FTurbo.py" />
+    <!-- <assembly src="FTurbo.dll" namespace="FTurbo" /> -->
+    <interface context="Project">
+        <images>images</images>
+    </interface>
+      <workflow name="Macher" context="Project" version="1">
+        <tasks>
+            <task name="Macher" caption="Macher" icon="test_component" version="1">
+                <callbacks>
+                    <onupdate>Macher_update</onupdate>
+                    <onedit>main</onedit>
+                </callbacks>
+                <inputs>
+                    <input/>
+                </inputs>
+                <outputs>
+                    <output format="" type="TurboGeometry"/>
+                </outputs>
+                <parameters>
+                    <parameter name="c_3m" caption="c_3m" usage="Input" control="float" version="1" />
+                    <parameter name="H_t" caption="H_t" usage="Input" control="float" version="1" />
+                    <parameter name="K_k" caption="K_k" usage="Input" control="float" version="1" />
+                    <parameter name="tau" caption="tau" usage="Input" control="float" version="1" />
+                    <parameter name="attack" caption="attack" usage="Input" control="float" version="1" />
+                    <parameter name="m_f" caption="m_f" usage="Input" control="float" version="1" />
+                </parameters>
+            </task>
+        </tasks>
+        <taskgroups>
+            <taskgroup name="FTurbo" caption="FTurbo" icon="producer_system" category="ACT Custom Workflows" abbreviation="Abbreviation" version="1">
+                <includeTask name="Macher" caption="Macher"/>
+            </taskgroup>
+        </taskgroups>
+      </workflow>
+</extension>
