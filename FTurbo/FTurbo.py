@@ -2,8 +2,8 @@ import os
 import math
 
 import clr
-clr.AddReference("artikel_3b_R_func")
-from artikel_3b_R_func import FAirfoil
+clr.AddReference("FTurboNative")
+from FTurboNative import *
 
 def main(task):
     ExtAPI.Log.WriteMessage('main')
@@ -27,11 +27,13 @@ def Macher_update(task):
     m_f = task.Parameters[5].Value
     ExtAPI.Log.WriteMessage('m_f = ' + str(m_f))
 
-    obj = FAirfoil()
+    obj = FCascade()
     ExtAPI.Log.WriteMessage(activeDir)
     ExtAPI.Log.WriteMessage("matlabt")
-    # obj.artikel_3b_R_func(activeDir, c_3m, H_t, attack, math.sqrt(m_f), K_k, tau)
-    obj.artikel_3b_R_func("C:/Users/fura/Documents/ANSYS ACT", 0.5, 0.3, 0.0, 1.2, 1.12, 1.6)
+    if c_3m == 0:
+        obj.artikel_3b_R_func(activeDir, 0.5, 0.3, 0.0, 1.2, 1.12, 1.6)
+    else:
+        obj.artikel_3b_R_func(activeDir, c_3m, H_t, attack, math.sqrt(m_f), K_k, tau)
     del obj
 
     filePath = System.IO.Path.Combine(activeDir, "Inf.inf")
@@ -52,6 +54,7 @@ def Macher_update(task):
 
     ExtAPI.Log.WriteMessage("toll")
 
+    # reload(FTurboNative)
     return 0
 
 if __name__ == "__main__":
