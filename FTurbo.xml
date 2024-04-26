@@ -5,11 +5,31 @@
     <interface context="Project">
         <images>images</images>
     </interface>
-      <workflow name="Macher" context="Project" version="1">
+      <workflow name="FTurbo" context="Project" version="1">
         <tasks>
-            <task name="Macher" caption="Macher" icon="test_component" version="1">
+            <task name="Rotor" caption="Rotor" icon="rotor" version="1">
                 <callbacks>
-                    <onupdate>Macher_update</onupdate>
+                    <onupdate>rotor_update</onupdate>
+                    <onedit>main</onedit>
+                </callbacks>
+                <inputs>
+                    <input/>
+                </inputs>
+                <outputs>
+                    <output format="" type="TurboGeometry"/>
+                </outputs>
+                <parameters>
+                    <parameter name="c_3m" caption="c_3m" usage="Input" control="float" version="1" />
+                    <parameter name="H_t" caption="H_t" usage="Input" control="float" version="1" />
+                    <parameter name="K_k" caption="K_k" usage="Input" control="float" version="1" />
+                    <parameter name="tau" caption="tau" usage="Input" control="float" version="1" />
+                    <parameter name="attack" caption="attack" usage="Input" control="float" version="1" />
+                    <parameter name="m_f" caption="m_f" usage="Input" control="float" version="1" />
+                </parameters>
+            </task>
+            <task name="Stator" caption="Stator" icon="stator" version="1">
+                <callbacks>
+                    <onupdate>stator_update</onupdate>
                     <onedit>main</onedit>
                 </callbacks>
                 <inputs>
@@ -29,8 +49,11 @@
             </task>
         </tasks>
         <taskgroups>
-            <taskgroup name="FTurbo" caption="FTurbo" icon="producer_system" category="ACT Custom Workflows" abbreviation="Abbreviation" version="1">
-                <includeTask name="Macher" caption="Macher"/>
+            <taskgroup name="FTurbo rotor" caption="FRotor" icon="FTurbo" category="FTurbo" abbreviation="FTrb" version="1">
+                <includeTask name="Rotor" caption="Rotor"/>
+            </taskgroup>
+            <taskgroup name="FTurbo stator" caption="FStator" icon="FTurbo" category="FTurbo" abbreviation="FTrb" version="1">
+                <includeTask name="Stator" caption="Stator"/>
             </taskgroup>
         </taskgroups>
       </workflow>

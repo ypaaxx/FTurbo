@@ -2,14 +2,13 @@ import os
 import math
 
 import clr
-clr.AddReference("FTurboNative")
+clr.AddReference("FTurboNative.dll")
 from FTurboNative import *
 
 def main(task):
     ExtAPI.Log.WriteMessage('main')
 
-def Macher_update(task):
-
+def update(task, R):
     ExtAPI.Log.WriteMessage('startet') 
     container = task.InternalObject
     activeDir = task.ActiveDirectory
@@ -30,12 +29,18 @@ def Macher_update(task):
     obj = FCascade()
     ExtAPI.Log.WriteMessage(activeDir)
     ExtAPI.Log.WriteMessage("matlabt")
-    if c_3m == 0:
-        obj.artikel_3b_R_func(activeDir, 0.5, 0.3, 0.0, 1.2, 1.12, 1.6)
-    else:
-        obj.artikel_3b_R_func(activeDir, c_3m, H_t, attack, math.sqrt(m_f), K_k, tau)
-    del obj
+    if R == 1:
+        if c_3m == 0:
+            obj.artikel_3b_R_func(activeDir, 0.5, 0.3, 0.0, 1.2, 1.12, 1.2)
+        else:
+            obj.artikel_3b_R_func(activeDir, c_3m, H_t, attack, math.sqrt(m_f), K_k, tau)
+    elif R == 0:
+        if c_3m == 0:
+            obj.artikel_3b_S_func(activeDir, 0.5, 0.3, 0.0, 1.2, 1.12, 1.2)
+        else:
+            obj.artikel_3b_S_func(activeDir, c_3m, H_t, attack, math.sqrt(m_f), K_k, tau)
 
+    del obj
     filePath = System.IO.Path.Combine(activeDir, "Inf.inf")
     fileRef = RegisterFile(FilePath=filePath)
     fileRef = None
@@ -56,6 +61,12 @@ def Macher_update(task):
 
     # reload(FTurboNative)
     return 0
+
+def rotor_update(task):
+    update(task, 1) 
+
+def stator_update(task):
+    update(task, 0)
 
 if __name__ == "__main__":
     print("Hello, World!")
