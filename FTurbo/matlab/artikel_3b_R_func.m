@@ -2,7 +2,7 @@ function Res = artikel_3b_R_func(varargin)
 
 argc = nargin + 1;
 if argc == 1
-    varargin =  "-dir C:\Users\fura\Documents -c_3m 0.5 -Ht 0.3 -i 0 -tau 1.0 -k 1.12 -m 1.0";
+    varargin =  splin("-dir C:\Users\fura\Documents -c_3m 0.5 -Ht 0.3 -i 0 -tau 1.0 -k 1.12 -m 1.0");
     argc = length(split(varargin));
 end
 

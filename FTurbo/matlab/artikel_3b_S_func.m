@@ -1,32 +1,62 @@
-function Res = artikel_3b_S_func(Directory, c_3a, H_t, attack, m_f, K_S, tauS)
+function Res = artikel_3b_S_func(varargin)
+
 
 argc = nargin + 1;
 if argc == 1
-    argv =  "-dir C:\Users\fura\Documents\test space -c_3m 0.9 -Ht 0.972 -i 0 -tau 2.0 -k 1.0 -m 1.0";
-    argc = length(split(argv));
-
-    c_3a = 0.9;
-    H_t = 1.2*c_3a^2;
-    attack = deg2rad(10);
-    m_f = 1;
-    K_S = 1;
-    tauS = 2;
-    Directory = "C:\Users\fura\Documents";
+    varargin =  split("-dir C:\Users\fura\Documents -c_3m 0.9 -Ht 0.972 -i 0 -tau 1.0 -k 1.12 -m 1.0");
+    argc = length(split(varargin));
 end
 
-attackS = attack;
+disp(varargin);
 
+c_3a = 0.5;
+H_t = 0.3;
+Re = 2e5;
+tauS = 1.5;
 c = 0.1;
 Rk = 0.35;
-
 omega = 2000 * pi/30;
+m_f = 1;
+K_S = 1.12;
+attack = 0;
+
+for count = 2:2:argc
+    switch varargin{count-1} 
+        case "-c_3m"
+            c_3a = str2double(varargin(count));
+        case "-dir"
+            Directory = string(varargin(count));
+        case "-Ht"
+            H_t = str2double(varargin{count});
+        case "-m"
+            m_f = str2double(varargin{count});
+        case "-k"
+            K_S = str2double(varargin{count});
+        case "-tau"
+            tauS = str2double(varargin{count});
+        case "-i"
+            attack = str2double(varargin{count});
+        case "-c"
+            c = str2double(varargin{count});
+        case "-Re"
+            Re = str2double(varargin{count});
+        case "-Rk"
+            Rk = str2double(varargin{count});
+        case "-rpm"
+            omega = str2double(varargin{count}) * pi/30;
+        case "-n1"
+            n1 = str2double(varargin{count});
+        case "-n2"
+            n2 = str2double(varargin{count});
+        otherwise
+            error("err");
+    end
+end
+attackS = attack;
+
+
 Uk = omega*(Rk);
 folder = Directory;
-
-%%
-fig1 = figure();
-hold on;
-axis equal;
 
 %% Начало цикла
 c_2a = c_3a/m_f;
@@ -62,7 +92,7 @@ stop_count = 10;
 while (stop ~= 1)&&(stop_count > 0)
     a_old = foilS.z_lange();
     Re_s  = Uk*(Rk)*foilS.b_ *c_2 /1.545e-5;
-    kS = 2e5/Re_s;
+    kS = Re/Re_s;
     da = foilS.z_lange()/foilS.b_/kS;
     a = cumsum([0 1 da 1])*foilS.b_*kS;
     a_ = linspace(a(1), a(end), 200);
@@ -78,20 +108,22 @@ while (stop ~= 1)&&(stop_count > 0)
 end
 
 %%
-fig1;
-hold on;
-axis equal;
-xticks(sort(a));
-xticklabels({'z=0', '3', '4', '5'});
-grid on;
-xlim([a(1), a(end)]);
+if (~isdeployed)
+    fig1 = figure();
+    hold on;
+    axis equal;
+    xticks(sort(a));
+    xticklabels({'z=0', '3', '4', '5'});
+    grid on;
+    xlim([a(1), a(end)]);
 
-coordS = foilS.getCoordinates;
-coordS_y = coordS(:,2);
-coordS_z = coordS(:,3);
-plot(coordS_z, coordS_y);
+    coordS = foilS.getCoordinates;
+    coordS_y = coordS(:,2);
+    coordS_z = coordS(:,3);
+    plot(coordS_z, coordS_y);
 
-drawnow
+    drawnow
+end
 %%
 save(folder + "/data.m");
 %% Вырисовать модели для CFX
