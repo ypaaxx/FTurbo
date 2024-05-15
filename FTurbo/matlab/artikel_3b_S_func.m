@@ -53,7 +53,7 @@ for count = 2:2:argc
     end
 end
 attackS = attack;
-
+m_f = sqrt(m_f);
 
 Uk = omega*(Rk);
 folder = Directory;
@@ -69,7 +69,7 @@ alfa_3_inv = atan((1-K_S)*c_2u/c_3a);
 %tauS = tau_BS2(-alfa_2, alfa_3);
 
 %%
-AVDR = [m_f m_f m_f^2 m_f^2];
+AVDR = [m_f^0 m_f^0 m_f m_f];
 
 a = [0  0.1046    0.3138    0.5229];
 

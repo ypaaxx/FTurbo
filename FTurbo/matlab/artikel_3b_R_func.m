@@ -51,7 +51,7 @@ for count = 2:2:argc
             error("err");
     end
 end
-
+m_f = sqrt(m_f);
 attackR = attack;
 Uk = omega*(Rk);
 folder = Directory;
